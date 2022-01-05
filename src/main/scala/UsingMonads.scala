@@ -6,7 +6,7 @@ object UsingMonads {
 
   case class Connection(host: String, port: String)
   val config = Map(
-    "host" -> "localhost"
+    "host" -> "localhost",
     "port" -> "4040"
   )
 
@@ -21,7 +21,7 @@ object UsingMonads {
       if (config.contains("host") && config.contains("port")) Try(Connection(config("host"), config("port"))) else Failure(new Exception("Config info not found"))
 
     override def issueRequest(conn: Connection, payload: String): Try[String] =
-      if (payload.size < 20) Try("request (payload) has been accepted") else Failure(new Exception("Failed: Payload longer than 20"))
+      if (payload.length < 20) Try("request (payload) has been accepted") else Failure(new Exception("Failed: Payload longer than 20"))
   }
 
   type LoadingOr[T] = Either[String, T]
@@ -31,7 +31,7 @@ object UsingMonads {
       if (config.contains("host") && config.contains("port")) Right(Connection(config("host"), config("port"))) else Left("Config info not found")
 
     override def issueRequest(conn: Connection, payload: String): LoadingOr[String] =
-      if (payload.size < 20) Right("request (payload) has been accepted") else Left("Failed: Payload longer than 20")
+      if (payload.length < 20) Right("request (payload) has been accepted") else Left("Failed: Payload longer than 20")
   }
 
   def main(args: Array[String]): Unit = {
