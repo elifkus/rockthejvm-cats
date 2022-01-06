@@ -1,10 +1,12 @@
 package us.elifk
 
-import scala.util.{Failure, Try}
+import scala.util.Try
+import scala.util.Failure
 
 object UsingMonads {
 
   case class Connection(host: String, port: String)
+
   val config = Map(
     "host" -> "localhost",
     "port" -> "4040"
@@ -12,6 +14,7 @@ object UsingMonads {
 
   trait HttpService[M[_]] {
     def getConnection(config: Map[String, String]): M[Connection]
+
     def issueRequest(conn: Connection, payload: String): M[String]
   }
 
